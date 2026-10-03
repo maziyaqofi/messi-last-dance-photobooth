@@ -1,0 +1,555 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #111827;
+
+    font-family: Arial, sans-serif;
+}
+
+
+/* =========================
+   PHOTOBOOTH
+========================= */
+
+.photobooth {
+    width: min(96vw, 1440px);
+
+    aspect-ratio: 16 / 9;
+
+    display: grid;
+
+    /* kira-kira sesuai desainmu */
+    grid-template-columns: 75% 25%;
+
+    background: white;
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   CAMERA
+========================= */
+
+.camera-section {
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+}
+
+.camera-stage {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    background: black;
+}
+
+
+/* Webcam */
+
+#camera {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    top: 0;
+    left: 0;
+
+    object-fit: cover;
+
+    transform: scaleX(-1);
+
+    z-index: 1;
+}
+
+
+/* Camera loading */
+
+.camera-message {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    color: white;
+
+    font-size: 20px;
+
+    z-index: 2;
+}
+
+
+/* FRAME */
+
+.frame-overlay {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: fill;
+
+    pointer-events: none;
+
+    z-index: 10;
+}
+
+
+/* =========================
+   RIGHT PANEL
+========================= */
+
+.pose-panel {
+    background: #75aadb;
+
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+}
+
+
+/* Pose cards */
+
+.pose-list {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-evenly;
+
+    align-items: center;
+
+    padding: 20px;
+}
+
+.pose-card {
+    width: 80%;
+    aspect-ratio: 1.65 / 1;
+
+    border: none;
+
+    border-radius: 18px;
+
+    background: #eeeeee;
+
+    cursor: pointer;
+
+    font-size: clamp(30px, 4vw, 64px);
+
+    font-weight: bold;
+
+    transition: 0.2s ease;
+}
+
+.pose-card:hover {
+    transform: scale(1.03);
+
+    background: white;
+}
+
+
+/* =========================
+   CONTROLS
+========================= */
+
+.controls {
+    height: 110px;
+
+    background: white;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 22px;
+}
+
+.control-button,
+.capture-button {
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+}
+
+.control-button {
+    font-size: 24px;
+
+    color: #75aadb;
+}
+
+.capture-button {
+    width: 62px;
+    height: 48px;
+
+    border-radius: 12px;
+
+    background: #07194f;
+
+    color: white;
+
+    font-size: 25px;
+}
+
+/* =========================
+   PHOTO SLOTS
+========================= */
+
+.photo-slot {
+    width: 80%;
+    aspect-ratio: 1.65 / 1;
+
+    border-radius: 18px;
+
+    background: #eeeeee;
+
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: clamp(30px, 4vw, 64px);
+    font-weight: bold;
+
+    position: relative;
+}
+
+.photo-slot img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+.countdown {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    font-size: clamp(48px, 7vw, 100px);
+    font-weight: bold;
+
+    color: white;
+
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+
+    z-index: 20;
+
+    pointer-events: none;
+
+    white-space: nowrap;
+}
+
+
+/* =========================
+   CAMERA FLASH
+========================= */
+
+.flash {
+    position: absolute;
+
+    inset: 0;
+
+    background: white;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 30;
+}
+
+.flash.active {
+    animation: cameraFlash 0.25s ease;
+}
+
+@keyframes cameraFlash {
+
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+
+}
+
+
+/* Hidden capture canvas */
+
+#captureCanvas {
+    display: none;
+}
+
+
+/* Disable camera during session */
+
+.capture-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* =========================
+   GESTURE STICKER
+========================= */
+
+.gesture-sticker {
+    position: absolute;
+
+    right: 8%;
+    bottom: 8%;
+
+    width: 32%;
+    height: auto;
+
+    z-index: 15;
+
+    display: none;
+
+    pointer-events: none;
+
+    filter: drop-shadow(
+        0 8px 14px rgba(0, 0, 0, 0.25)
+    );
+}
+
+.gesture-sticker.show {
+    display: block;
+}
+
+/* =====================================
+   RESULT SCREEN
+===================================== */
+
+.result-screen {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: #f7f7f4;
+
+    z-index: 9999;
+
+    display: none;
+
+    overflow-y: auto;
+
+    padding: 40px 20px;
+}
+
+
+.result-screen.show {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* =====================================
+   RESULT CONTAINER
+===================================== */
+
+.result-container {
+    width: 100%;
+    max-width: 950px;
+
+    margin: auto;
+
+    text-align: center;
+}
+
+
+/* =====================================
+   HEADER
+===================================== */
+
+.result-header {
+    margin-bottom: 28px;
+}
+
+
+.result-label {
+    margin-bottom: 8px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    color: #75aadb;
+}
+
+
+.result-header h1 {
+    margin: 0 0 8px;
+
+    font-size: 44px;
+
+    color: #07194f;
+}
+
+
+.result-description {
+    margin: 0;
+
+    font-size: 15px;
+
+    color: #777777;
+}
+
+
+/* =====================================
+   PHOTOS
+===================================== */
+
+.result-grid {
+    width: 100%;
+    max-width: 760px;
+
+    margin: 0 auto 28px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 14px;
+}
+
+
+.result-photo {
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    background: #e8e8e8;
+
+    border-radius: 14px;
+
+    overflow: hidden;
+}
+
+
+.result-photo img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* =====================================
+   BUTTONS
+===================================== */
+
+.result-actions {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.back-button,
+.download-button {
+    min-width: 190px;
+
+    padding: 14px 22px;
+
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+.back-button {
+    background: white;
+
+    color: #07194f;
+
+    border: 1px solid #d7d7d7;
+}
+
+
+.download-button {
+    background: #07194f;
+
+    color: white;
+
+    border: 1px solid #07194f;
+}
+
+
+.back-button:hover,
+.download-button:hover {
+    transform: translateY(-2px);
+}
+
+
+.back-button:active,
+.download-button:active {
+    transform: translateY(0);
+}
