@@ -1,3 +1,4 @@
+const backgroundMusic = document.getElementById("backgroundMusic");
 const camera = document.getElementById("camera");
 const cameraMessage = document.getElementById("cameraMessage");
 
@@ -728,3 +729,64 @@ function drawImageCover(
         height
     );
 }
+
+// ==============================
+// BACKGROUND MUSIC
+// ==============================
+
+backgroundMusic.volume = 0.5;
+
+
+async function startBackgroundMusic() {
+
+    try {
+
+        await backgroundMusic.play();
+
+        console.log(
+            "🎵 Background music playing"
+        );
+
+    } catch (error) {
+
+        console.log(
+            "🎵 Autoplay blocked. Waiting for user interaction."
+        );
+    }
+}
+
+
+// Try autoplay when page opens
+
+window.addEventListener(
+    "load",
+    startBackgroundMusic
+);
+
+
+// If browser blocks autoplay,
+// start music on first interaction
+
+document.addEventListener(
+    "click",
+    async () => {
+
+        if (backgroundMusic.paused) {
+
+            try {
+
+                await backgroundMusic.play();
+
+            } catch (error) {
+
+                console.log(
+                    "Audio could not start."
+                );
+
+            }
+
+        }
+
+    },
+    { once: true }
+);
