@@ -122,7 +122,7 @@ messi-photobooth/
 Clone the repository:
 
 ```bash
-git clone YOUR_REPOSITORY_URL
+git clone https://github.com/maziyaqofi/messi-last-dance-photobooth
 ```
 
 Move into the project directory:
